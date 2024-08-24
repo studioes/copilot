@@ -121,14 +121,14 @@ def list_machines():
         <li>
             {machine.name} - {machine.mac_address}
             <form method="POST" action="/wakeup_by_mac" style="display:inline;">
-                <input type="hidden" name="mac_address" value="{machine.mac_address}">
-                <input type="submit" value="Wake Up">
+            <input type="hidden" name="mac_address" value="{machine.mac_address}">
+            <input type="submit" value="Wake Up">
             </form>
             <form method="GET" action="/edit_machine/{machine.id}" style="display:inline;">
-                <input type="submit" value="Edit">
+            <input type="submit" value="Edit">
             </form>
             <form method="POST" action="/delete_machine/{machine.id}" style="display:inline;">
-                <input type="submit" value="Delete">
+            <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete this machine?');">
             </form>
         </li>
         '''
