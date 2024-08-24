@@ -1,0 +1,4 @@
+# Ignore instance and virtual environment directories
+instance/
+venv312/
+SQLite.sql
