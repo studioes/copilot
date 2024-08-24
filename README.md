@@ -21,7 +21,9 @@ register_mac_addressで起動中のLANマシン名を入力するとMACアドレ
 
 Wake Upはsend_magic_packet_routeにPOSTしてWoLを実行します。
 
-EditとDeleteはそのままですね。Editはedit_machineにid付でアクセスして既存情報を編集します。Deleteはdelete_machineにid付でPOSTするので確認無しにレコードは削除されます。Copilotに頼んでこのボタンにJSで確認機能を付けて等してみるのも良さそうです。
+EditとDeleteはそのままですね。Editはedit_machineにid付でアクセスして既存情報を編集します。
+~~Deleteはdelete_machineにid付でPOSTするので確認無しにレコードは削除されます。Copilotに頼んでこのボタンにJSで確認機能を付けて等してみるのも良さそうです。~~
+Deleteはdelete_machineにid付でPOSTしてレコードを削除します。　Copilotに頼んで確認を入れて貰いました。
 
 インストール方法はCopilotにお任せした物で問題ありません。
 
@@ -38,6 +40,8 @@ EditとDeleteはそのままですね。Editはedit_machineにid付でアクセ�
     - テキストで適当に書いたREADMEをCopilotにmdに直して貰いました、このセクションを選択して「md形式のフォーマットにして」
 - 3回目:
     - Deleteボタンに確認処理を追加して貰いました、当該のFormセクション3行を選んだ状態で「deleteを実行するか確認を追加して」
+- 4回目:
+    - Deleteボタンの挙動についてREADMEを修正しました。　md記法慣れてないので、ここもCopilotにお願いして・・・「この行を取り消し表示にして」とお願いしたらやってくれました。
 
 
 # Flask マシン管理アプリケーション
