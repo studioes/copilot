@@ -120,8 +120,8 @@ def list_machines():
         machine_list += f'''
         <li>
             {machine.name} - {machine.mac_address}
-            <form method="POST" action="/wakeup_by_machinename" style="display:inline;">
-                <input type="hidden" name="machine_name" value="{machine.name}">
+            <form method="POST" action="/wakeup_by_mac" style="display:inline;">
+                <input type="hidden" name="mac_address" value="{machine.mac_address}">
                 <input type="submit" value="Wake Up">
             </form>
             <form method="GET" action="/edit_machine/{machine.id}" style="display:inline;">
@@ -154,4 +154,4 @@ def send_magic_packet(mac_address):
     sock.close()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)

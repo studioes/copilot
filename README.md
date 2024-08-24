@@ -1,30 +1,62 @@
-# Flask Machine Management Application
+# GitHub Copilotの可能性を探る習作
+## これは何？
+　これはGitHub Copilotの支援を活用してほとんどのコードを生成して作ったアプリケーションです。
+　このセクションから下のREADMEもCopilotに生成して貰いました。
+　それ故に一部誤りがあったりユーザに有用性が無い情報だったりするけど、一応の意味があります。
+　このプログラムを作るために必要だったCopilotへの指示はやり直しの合計で30にも満たず、そして人間が修正したのは10行にも満たないです。　取りあえず形を作るだけなら大体Copilot任せで十分で、一部の前後関係とか依存関係を修正してあげれば動く状態になりました。
+　しかし、Copilotへの指示は適切な用語を用いて理解出来るエンジニア的な指示で無いと想定外の動きをするので、まだ素人がいくつかの機能を持つプログラムを作るのは難しいと感じます。
+　他方で、知らないけどふんわり用語が解る所から手がかりを作る検索の代替としての有用性も示してくれました。　例えば、このプログラムを書き始める段階でWoLがあるとか、WoLはMACアドレスやマジックパケットと言うのが関連すると言う程度の知識しか無く、その詳しい内容は知りませんでした。　しかし、Copilotに「マジックパケットを送ってWakeUpする」と言う指示でパケット組み立ての部分が生成されたので情報を探して書く手間が省け、「マシン名からMACアドレスを取得する」と言う指示でgetmacと言うPyPiを利用するコードが生成されたのでPyPiを探す手間も省けました。
+　そして、このアプリケーション自体も自宅サーバ、ラズパイ等を動かしている人などには一応使える物に仕上がっています。
+　習作なのでデバッグ環境しか想定していませんが、適当にwsgiでnginxとかと繋いでやればOKでしょう。
 
-This is a Flask-based web application that allows you to manage machines and send Wake-on-LAN (WoL) magic packets to wake them up. The application provides functionalities to register machines, list all registered machines, edit machine details, delete machines, and send magic packets to wake up machines by their MAC addresses.
+　人間が書いたこのアプリケーションの説明
+　このアプリケーションは、Python/FlaskによりWebユーザインタフェースでWoLを行うアプリケーションです。　DBとしてsqliteを使用します。
+トップページにはFlaskルートへの一覧が表示されます。
+リンクからアクセスして有用なのはregister_mac_address、send_magick_packet_routeとlist_machinesだけです。　それぞれ、マシン名からMACアドレスを取得してDBに保存する機能、MACアドレスを指定してマジックパケットを送信する機能、DBにあるマシン情報を一覧する機能を提供しています。
+　register_mac_addressで起動中のLANマシン名を入力するとMACアドレスを探して、見つかればDBに追加します。　これが初期設定になるでしょう。
+　後は、list_machinesページから操作する事になります。　マシン一覧が表示され、Wake Up/Edit/Deleteの三つのボタンが存在します。
+　Wake Upはsend_magic_packet_routeにPOSTしてWoLを実行します。
+　EditとDeleteはそのままですね。　Editはedit_machineにid付でアクセスして既存情報を編集します。　Edleteはdelete_machineにid付でPOSTするので確認無しにレコードは削除されます。　Copilotに頼んでこのボタンにJSで確認機能を付けて等してみるのも良さそうです。
+　インストール方法はCopilotにお任せした物で問題ありません。
 
-## Features
+アップデート履歴
+・初回
+調整無しに取りあえず形が出来ただけの状態
+・1回目
+　Appを起動する部分がローカルしかリッスンしていないので、当該部分に移動してCopilotに修正して貰いました「全てのインタフェイスでリッスンして起動させて」
+　リストからのWake Onリンクが誤っていたので直して貰いました（Wake On機能をリスト作った後に変更指示したのでそこが修正されていなかった）
+　正直この修正は手書きの方が早いですが。
+　そして、README.mdはCopilot生成の物でしたが、「日本語にして」とお願いした上で、このセクションを追加しました。
+　なお、CommitのコメントもCopilotに任せたので今ひとつ的を射ない物になっていたりします。
 
-- **Register Machine**: Register a machine with its name and MAC address.
-- **List Machines**: View a list of all registered machines.
-- **Edit Machine**: Edit the details of a registered machine.
-- **Delete Machine**: Delete a registered machine.
-- **Send Magic Packet**: Send a Wake-on-LAN magic packet to wake up a machine by its MAC address.
+
+# Flask マシン管理アプリケーション
+
+これは、マシンを管理し、Wake-on-LAN (WoL) マジックパケットを送信してマシンを起動するための Flask ベースの Web アプリケーションです。このアプリケーションは、マシンの登録、登録されたすべてのマシンの一覧表示、マシンの詳細の編集、マシンの削除、および MAC アドレスによるマシンの起動のためのマジックパケットの送信機能を提供します。
+
+## 機能
+
+- **マシンの登録**: マシンの名前と MAC アドレスを登録します。
+- **マシンの一覧表示**: 登録されたすべてのマシンの一覧を表示します。
+- **マシンの編集**: 登録されたマシンの詳細を編集します。
+- **マシンの削除**: 登録されたマシンを削除します。
+- **マジックパケットの送信**: MAC アドレスによってマシンを起動するための Wake-on-LAN マジックパケットを送信します。
 
 ## Routes
 
-- `/`: Lists all available routes in the application.
-- `/mac_regist`: Register a machine by providing its name and MAC address.
-- `/wakeup_by_mac`: Send a magic packet to wake up a machine by its MAC address.
-- `/edit_machine/<int:id>`: Edit the details of a registered machine.
-- `/delete_machine/<int:id>`: Delete a registered machine.
-- `/machines`: List all registered machines.
+- `/`: アプリケーション内のすべてのルートを一覧表示します。
+- `/mac_regist`: マシンの名前と MAC アドレスを提供してマシンを登録します。
+- `/wakeup_by_mac`: MAC アドレスによってマシンを起動するためのマジックパケットを送信します。
+- `/edit_machine/<int:id>`: 登録されたマシンの詳細を編集します。
+- `/delete_machine/<int:id>`: 登録されたマシンを削除します。
+- `/machines`: 登録されたすべてのマシンを一覧表示します.
 
 ## Installation
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/flask-machine-management.git
-    cd flask-machine-management
+    git clone https://github.com/studioes/copilot.git
+    cd copilot
     ```
 
 2. Create a virtual environment and activate it:
@@ -66,20 +98,20 @@ This is a Flask-based web application that allows you to manage machines and sen
 ### Example Code Snippet
 
 ```python
-# Function to send a magic packet to wake up a machine by MAC address
+# MAC アドレスによってマシンを起動するためのマジックパケットを送信する関数
 def send_magic_packet(mac_address):
-    # Create a socket object
+    # ソケットオブジェクトを作成
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-    # Set the socket options to allow broadcasting
+    # ブロードキャストを許可するようにソケットオプションを設定
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
-    # Create the magic packet
+    # マジックパケットを作成
     mac_bytes = bytes.fromhex(mac_address.replace(':', ''))
     magic_packet = b'\xff' * 6 + mac_bytes * 16
 
-    # Send the magic packet to the broadcast address
+    # マジックパケットをブロードキャストアドレスに送信
     sock.sendto(magic_packet, ('<broadcast>', 9))
 
-    # Close the socket
+    # ソケットを閉じる
     sock.close()
