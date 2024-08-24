@@ -62,9 +62,9 @@ EditとDeleteはそのままですね。Editはedit_machineにid付でアクセ�
 ## Installation
 
 1. Clone the repository:
-    ```sh
-    git clone https://github.com/studioes/copilot.git
-    cd copilot
+    ```bash
+    git clone https://github.com/studioes/copilot-WoL-Flask.git
+    cd copilot-WoL-Flask
     ```
 
 2. Create a virtual environment and activate it:
